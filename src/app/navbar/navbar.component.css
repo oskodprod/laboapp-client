@@ -1,0 +1,11 @@
+.spacing {
+    flex: 1 1 auto;
+  }
+
+.navbar-menu-button {
+  margin-left: 15px;
+}
+
+.navbar-menu-option {
+  text-align: center;
+}

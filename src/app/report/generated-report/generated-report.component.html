@@ -1,0 +1,169 @@
+<div class="mainform">
+    <table>
+        <tr>
+            <th align="center" colspan="1">
+                <h2><b>LABO</b></h2>
+                <p>{{ generatedReport.sampling.labrat.labo.name }}</p>
+                <p>{{ generatedReport.sampling.labrat.labo.address }}</p>
+                <p>{{ generatedReport.sampling.labrat.labo.postalcode }}, {{ generatedReport.sampling.labrat.labo.city }}</p>
+            </th>
+            <th align="center" colspan="5">
+                <h2><p><b>Sprawozdanie z badań wytrzymałości betonu na ściskanie</b></p></h2>
+                <p><b>Protokół pobrania nr: {{ generatedReport.sampling.sid }}</b></p>
+                <p><b>Sprawozdanie nr: {{ generatedReport.rid | slice:6 }} wyd. {{ repoRev }}</b><p>
+                <p><b>wystawiono dnia: {{ generatedReport.docDate | date: 'shortDate' }}</b></p>
+            </th>
+        </tr>
+        <tr colspan="4">Zleceniodawca:<b> {{ generatedReport.sampling.client.company.name }}, {{ generatedReport.sampling.client.company.address }}, {{ generatedReport.sampling.client.company.postalcode }}, {{ generatedReport.sampling.client.company.city }}</b></tr>
+        <tr colspan="4">Miejsce pobrania: <b>{{ generatedReport.sampling.client.clName }}, {{ generatedReport.sampling.client.clAddress }}, {{ generatedReport.sampling.client.clCity }}</b></tr>
+        <tr colspan="4">Data wykonania próbek: <b>{{ generatedReport.sampling.docDate | date: 'shortDate' }}</b></tr>
+        <tr colspan="4" *ngIf="this.generatedReport.sampling.sxMak=='Laboratorium'">Próbkę pobrał: <b>{{ generatedReport.sampling.labrat.labo.name }}, {{ generatedReport.sampling.labrat.labo.address }}, {{ generatedReport.sampling.labrat.labo.postalcode }}, {{ generatedReport.sampling.labrat.labo.city }}</b></tr>
+        <tr colspan="4" *ngIf="this.generatedReport.sampling.sxMak=='Zleceniodawca'">Próbkę pobrał: <b>{{ generatedReport.sampling.client.company.name }}, {{ generatedReport.sampling.client.company.address }}, {{ generatedReport.sampling.client.company.postalcode }}, {{ generatedReport.sampling.client.company.city }}</b></tr>
+        <tr colspan="4">
+            <div class="pa1">Producent mieszanki betonowej: <b>{{ generatedReport.sampling.rec.maker.name }}</b></div>
+            <div class="pa1">Certyfikowana zakładowa kontrola produkcji: <b>{{ generatedReport.sampling.rec.cert==true ? 'Tak' : 'Nie'}}*</b></div>
+        </tr>
+        <tr colspan="4">Deklarowane parametry mieszanki betonowej*: <b>{{ generatedReport.sampling.rec.con }}{{ generatedReport.sampling.rec.clW ? ', '+generatedReport.sampling.rec.clW : '' }}{{ generatedReport.sampling.rec.clF ? ', '+generatedReport.sampling.rec.clF : '' }}{{ generatedReport.sampling.rec.clN ? ', '+generatedReport.sampling.rec.clN : '' }}</b></tr>
+        <tr colspan="4" rowspan="2">
+            <div class="pa1">Rodzaj próbek: <b>{{ s100check==true ? 'Sześcienna, 100x100x100mm' : '' }} {{ s100check==true&&s150check==true ? '/' : ''}} {{ s150check==true ? 'Sześcienna, 150x150x150mm' : '' }}</b></div>
+            <div class="pa1"><b>{{ scTrue==true ? 'Punktowa' : ''}} {{ scTrue==true&&scFalse==true ? ', ' : ''}}{{ scFalse==true ? 'Złożona' : ''}}</b></div>
+        </tr>
+        <tr colspan="4">
+            <div class="pa1">Deklarowane parametry betonu</div>
+            <div class="pa1">Kod betonu: <b>{{ generatedReport.sampling.rec.recName }}</b></div>
+            <div class="pa1">Klasa wytrzymałości: <b>{{ generatedReport.sampling.rec.clS }}</b></div>
+        </tr>
+        <tr colspan="4">Dodatkowe oznaczenia: <b>{{ generatedReport.sampling.rec.clX }}; {{ generatedReport.sampling.rec.comments }}</b></tr>
+        <tr colspan="4">Element betonowany*: <b>{{ generatedReport.sampling.loc }}</b></tr>
+        <tr colspan="4">Opis*: <b>{{ generatedReport.sampling.locDesc }}</b></tr>
+    </table>
+    <hr>
+    <h3><b><small>Wyniki badań próbek betonu</small></b></h3>
+    <p style="margin-left: 20px;"><small>Typy zniszczenia wg PN-EN 12390-3:2019-07</small></p>
+    <table>
+        <tr>
+            <th>Data pobrania</th>
+            <th>Data badania</th>
+            <th>Wiek próbki</th>
+            <th>Nr dostawy*</th>
+            <th>Oznaczenie próbki</th>
+            <th>X</th>
+            <th>Y</th>
+            <th>Z</th>
+            <th>Pow. ścisk. (X*Y)</th>
+            <th>Masa próbki</th>
+            <th>Rodz. zniszczenia</th>
+            <th>Siła niszcząca</th>
+            <th>Wytrzymałość na ściskanie f<sub>ci</sub></th>
+        </tr>
+        <tr>
+            <th>dd/mm/rrrr</th>
+            <th>dd/mm/rrrr</th>
+            <th>dni</th>
+            <th>nr</th>
+            <th>nr</th>
+            <th>[mm]</th>
+            <th>[mm]</th>
+            <th>[mm]</th>
+            <th>[mm<sup>2</sup>]</th>
+            <th>[kg]</th>
+            <th>[P/N]</th>
+            <th>[kN]</th>
+            <th>[MPa]</th>
+        </tr>
+        <tr *ngFor="let sample of this.chosenSamples">
+            <td class="trc">{{sample.date | date:'dd/MM/YYYY'}}</td>
+            <td class="trc">{{sample.chkDate | date:'dd/MM/YYYY'}}</td>
+            <td class="trc">{{sample.agTime}}</td>
+            <td class="trc">{{sample.WZ}}</td>
+            <td class="trc">{{sample.sxid | slice:5}}</td>
+            <td class="trc">{{sample.wymA}}</td>
+            <td class="trc">{{sample.wymB}}</td>
+            <td class="trc">{{sample.wymC}}</td>
+            <td class="trc">{{sample.wymA*sample.wymB | number:'5.2-2'}}</td>
+            <td class="trc">{{sample.mass}}</td>
+            <td class="trc">{{sample.destType}}</td>
+            <td class="trc">{{sample.destForce}}</td>
+            <td class="trc">{{sample.destResult}}</td>
+        </tr>
+    </table>
+    <hr><h3><b><small>Werdykt wydany wg zasady prostej akceptacji</small></b></h3>
+    <p style="margin-left: 20px;"><small>Ocena identyczności zgodnie z zał. B do PN-EN 206+A1:2016-12; Beton - Wymagania, właściwości, produkcja i zgodność</small></p>
+    <table>
+        <tr>
+            <td colspan="2">Wytrzymałość charakterystyczna(f<sub>ck</sub>): </td>
+            <td><b>{{destCk}} MPa</b></td>
+        </tr>
+        <tr>
+            <td colspan="2">Wytrzymałość średnia(f<sub>cm</sub>): </td>
+            <td><b>{{destAvg}}</b></td>
+        </tr>
+        <tr *ngIf="batchestaken &gt; 1">
+            <td>Kryterium 1(f<sub>cm</sub> &#8925; f<sub>ck</sub> + {{batchestaken &gt; 4 ? '2' : '1'}})</td>
+            <td><b>
+                {{destAvg}}
+                {{Crit1 ? '&#8925;' : '&#62;' }}
+                {{batchestaken &gt; 4 ? destCk+2 : destCk+1}}</b>
+            </td>
+            <td><b>{{Crit1 ? 'Spełnione' : 'Niespełnione'}}</b></td>
+        </tr>
+        <tr>
+            <td>Kryterium 2(f<sub>ci</sub> &#8925; f<sub>ck</sub> - 4)</td>
+            <td><b>
+                {{destMin}}
+                {{Crit1 ? '&#8925;' : '&#62;' }}
+                {{destCk-4}}</b>
+            </td>
+            <td><b>{{Crit2 ? 'Spełnione' : 'Niespełnione'}}</b></td>
+        </tr>
+        <tr>
+            <th colspan="3" *ngIf="(batchestaken == 1 && Crit2)||(batchestaken &gt; 1 && Crit1)">
+                Badana objętość betonu spełnia wymagania klasy {{ generatedReport.sampling.rec.clS }}
+            </th>
+            <th colspan="3" *ngIf="(batchestaken == 1 && !Crit2)||(batchestaken &gt; 1 && !Crit1)">
+                Badana objętość betonu nie spełnia wymagań klasy {{ generatedReport.sampling.rec.clS }}
+            </th>
+        </tr>
+    </table>
+    <div *ngIf="chosenSamples.length &gt; 1"><p>
+    <h3><b><small>Niepewność pomiaru</small></b></h3>
+    <p style="margin-left: 20px;"><small>
+        Niepewność pomiaru została określona zgodnie z dokumentem EA-04/16. Podana wartość niepewności stanowi niepewność rozszerzoną przy poziomie ufności 95% i współczynniku rozszerzenia k = 2.
+    </small></p>
+    <table>
+        <tr>
+            <td>Odchylenie standardowe [s]: </td>
+            <td><b>{{stdDev}}</b></td>
+        </tr>
+        <tr>
+            <td>Niepewność rozszerzona [U(x)]: </td>
+            <td><b>{{extUnc}}</b></td>
+        </tr>
+        <tr>
+            <td>Przedział ufnośći:</td>
+            <td><b>({{destAvg-extUnc}}; {{destAvg+extUnc}})</b></td>
+        </tr>
+    </table>
+    </div>
+    <hr>
+    <h3 align="center"><b>Badanie wytrzymałości betonu na ściskanie przeprowadzono zgodnie z PN-EN 12390-3:2019-07</b></h3>
+    <table>
+        <tr>
+            <th style="height: 80px; width: 33%; vertical-align: top;">Laboratorium (pieczątka)</th>
+            <th style="height: 80px; width: 33%; vertical-align: top;">
+                Sporządził(a)
+                <div><b>{{ generatedReport.createdBy }}</b></div>
+            </th>
+            <th style="height: 80px; width: 33%; vertical-align: top;">Autoryzował(a)</th>
+        </tr>
+    </table>
+    <h3><b><small>Uwagi końcowe: </small></b></h3>
+    <hr>
+    <h3><b><small>KLAUZULA:</small></b></h3>
+    <p style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;"><small>1. Wyniki dotyczą tylko badanych próbek.</small></p>
+    <p style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;"><small>2. Laboratorium nie ponosi odpowiedzialności za próbki dostarczone do laboratorium przez zleceniodawcę.</small></p>
+    <p style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;"><small>3. Niniejsze sprawozdanie nie może być powielane inaczej niż w całości, bez pisemnej zgody podmiotu sporządzającego.</small></p>
+    <p style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;"><small>* Informacje otrzymane od klienta. Laboratorium nie ponosi odpowiedzialności za otrzymane Informacje.</small></p>
+</div>
+<hr style="margin-top: 10px; margin-bottom: 10px">
+<button style="margin-left:10px; margin-bottom: 20px" class="mat-raised-button" routerLink="/filrep">Powrót</button>

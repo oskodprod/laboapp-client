@@ -1,0 +1,24 @@
+<div class="alert alert-danger" *ngIf="error">
+    <p>{{ error.status }} - {{error.error.message}}</p>
+</div>
+
+<form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" >
+    <div>
+    <mat-form-field appearance="outline">
+        <mat-label>E-Mail</mat-label>
+        <input matInput type="email" ngModel name="email" required email />
+    </mat-form-field>
+    </div>
+    <div>
+    <mat-form-field appearance="outline">
+        <mat-label>Hasło</mat-label>
+        <input matInput type="password" ngModel name="password" required minlength="6"/>
+        <mat-hint>Min 6 znaków</mat-hint>
+    </mat-form-field>
+    </div>
+    <div>
+    <button mat-raised-button type="submit" [disabled]="!authForm.valid">
+        Zaloguj
+    </button>
+    </div>
+</form>

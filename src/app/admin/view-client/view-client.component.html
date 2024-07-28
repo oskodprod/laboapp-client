@@ -1,0 +1,110 @@
+
+<div [formGroup]="form">
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwa budowy"
+        required
+        formControlName="clName">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Adres budowy"
+        required
+        formControlName="clAddress">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Miasto"
+        required
+        formControlName="clCity">
+    </mat-form-field>
+    <div>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Skrót"
+        required
+        formControlName="short">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Symbol"
+        required
+        formControlName="iniShort">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Kod budowy"
+        required
+        formControlName="cid">
+    </mat-form-field>
+    </div><hr><div>
+        <div>Osoba kontaktowa</div>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Imię"
+        required
+        formControlName="contactname">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwisko"
+        required
+        formControlName="contactlastname">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="tel"
+        placeholder="Telefon"
+        required
+        formControlName="contactTelNo">
+    </mat-form-field>
+    </div>
+    <mat-form-field>
+        <mat-label>Wykonawca</mat-label>
+        <mat-select formControlName="name" name="wyko">
+            <mat-option *ngFor="let wyko of wykos" [value]="wyko.name">
+                {{wyko.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <hr>
+    <div>
+        <div>Konto</div>
+        <mat-form-field>
+            <input
+            matInput
+            type="email"
+            placeholder="Email"
+            required
+            formControlName="email">
+        </mat-form-field>
+        <mat-form-field>
+            <input
+            matInput
+            type="password"
+            placeholder="Hasło"
+            formControlName="password">
+        </mat-form-field>
+    </div>
+</div>
+<hr>
+
+    <button class="mat-raised-button" routerLink="/clients">Anuluj</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!form.valid" (click)="save()">Zapisz</button>

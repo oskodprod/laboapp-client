@@ -1,0 +1,73 @@
+<hr>
+<div class="container">
+    <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error.status }} - {{error.error.message}}</p>
+    </div>
+    <form #comp="ngForm" (ngSubmit)="onSubmit(comp)">
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Nazwa firmy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="name"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Adres firmy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="address"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Kod pocztowy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="postalcode"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Miasto</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="city"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Numer NIP</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="nip"
+            required>
+        </mat-form-field>
+      </div>
+      <hr>
+      <div>
+          <mat-button-toggle-group #group="matButtonToggleGroup" [value]="selectedToggle" (change)="onValChange(group.value)">
+                <mat-button-toggle value="labo">Laboratorium</mat-button-toggle>
+                <mat-button-toggle value="wyko">Wykonawca</mat-button-toggle>
+                <mat-button-toggle value="prod">Producent betonu</mat-button-toggle>
+          </mat-button-toggle-group>
+      </div>
+      <hr>
+      <button mat-raised-button [disabled]="!comp.valid" type="submit">Dodaj</button>
+    </form>
+  </div>

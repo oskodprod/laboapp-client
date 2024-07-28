@@ -1,0 +1,29 @@
+.textcentered{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+}
+
+.contentbox{
+    width: 75%;
+    position: sticky;
+    left: 12.5%;
+}
+
+.content{
+    justify-content: center;
+    display: flex;
+    position: sticky;
+}
+
+mat-radio-button{
+    margin-left: 15px;
+    margin-bottom: 15px;
+}
+
+table{
+    width: 90%;
+    position: sticky;
+    left: 5%
+}

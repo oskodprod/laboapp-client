@@ -1,0 +1,107 @@
+<div *ngIf="error">
+    <p>{{ error.status }} - {{error.error.message}}</p>
+    <hr>
+</div>
+<div [formGroup]="form">
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwa"
+        required
+        formControlName="recName">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Producent</mat-label>
+        <mat-select formControlName="name" name="prod">
+            <mat-option *ngFor="let prod of prods" [value]="prod.name">
+                {{prod.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <div>
+    <mat-form-field>
+        <mat-label>Wytrzymałość na ściskanie</mat-label>
+        <mat-select formControlName="cls" name="sel">
+            <mat-option *ngFor="let sel of cls" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Konsystencja</mat-label>
+        <mat-select formControlName="con" name="sel">
+            <mat-option *ngFor="let sel of con" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Wodoszczelność</mat-label>
+        <mat-select formControlName="clW" name="sel">
+            <mat-option ([value])="null"></mat-option>
+            <mat-option *ngFor="let sel of clw" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Mrozoodporność</mat-label>
+        <mat-select formControlName="clF" name="sel">
+            <mat-option ([value])="null"></mat-option>
+            <mat-option *ngFor="let sel of clf" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Nasiąkliwość</mat-label>
+        <mat-select formControlName="clN" name="sel">
+            <mat-option ([value])="null"></mat-option>
+            <mat-option *ngFor="let sel of cln" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div><div>
+    <mat-checkbox formControlName="cert">Certyfikacja</mat-checkbox>
+    </div><div>
+    <mat-form-field>
+        <mat-label>Okres wiązania</mat-label>
+        <mat-select formControlName="agTime" name="sel">
+            <mat-option *ngFor="let sel of agt" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div><div>
+    <!--klasy ekspozycji checkboxy-->
+    <mat-form-field>
+        <mat-label>Klasy ekspozycji</mat-label>
+        <mat-select formControlName="clX" name="sel" multiple>
+            <mat-option *ngFor="let sel of clx" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    </div><div>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Dodatkowe Uwagi"
+        formControlName="comments">
+    </mat-form-field>
+    </div>
+</div>
+<hr>
+    <button class="mat-raised-button" routerLink="/filrec">Anuluj</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!form.valid" (click)="save()">Zapisz</button>
+

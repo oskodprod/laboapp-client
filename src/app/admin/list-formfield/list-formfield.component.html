@@ -1,0 +1,60 @@
+<div class="container" *ngIf=addField>
+    <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error.status }} - {{error.error.message}}</p>
+    </div>
+    <form #field="ngForm" (ngSubmit)="onSubmit(field)">
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Kategoria pola</mat-label>
+            <mat-select [(ngModel)]="selectedCategory" name="category">
+              <mat-option *ngFor="let category of categories" [value]="category.category">
+                {{category.category}}
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Wartość pola</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="value"
+            required>
+        </mat-form-field>
+      </div>
+      <hr>
+      <button mat-raised-button [disabled]="!field.valid" type="submit">Dodaj</button>
+    </form>
+</div>
+<button mat-raised-button (click)="ChangeaddField()" *ngIf="!addField">Dodaj pozycję</button>
+<hr>
+
+<div class="centered">
+    <b>Lista pozycji formularza</b>
+    <div *ngIf="error">
+        <p>{{ error.status }} - {{error.error.message}}</p>
+    </div>
+</div><div>
+  <table mat-table [dataSource]="fieldList" class="mat-elevation-z8">
+    <ng-container matColumnDef="category">
+      <th mat-header-cell *matHeaderCellDef>Kategoria</th>
+      <td mat-cell *matCellDef="let element">{{element.category}}</td>
+    </ng-container>
+    <ng-container matColumnDef="value">
+      <th mat-header-cell *matHeaderCellDef>Wartość</th>
+      <td mat-cell *matCellDef="let element">{{element.value}}</td>
+    </ng-container>
+    <ng-container matColumnDef='delete'>
+      <th mat-header-cell *matHeaderCellDef>Usuń</th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-mini-fab color="warn" (click)="deleteElement(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="fieldListColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: fieldListColumns;"></tr>
+  </table>
+</div>

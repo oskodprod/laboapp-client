@@ -1,0 +1,252 @@
+<!--<p>view-sample works!</p>
+<p>{{ testedSample | json }}</p>-->
+<div class="mainform">
+    <h2 align="center">
+        <b>Karta badania wytrzymałości na ściskanie</b>
+        <p><b>Próbka nr {{ testedSample.sxid }}</b></p>
+        <p><small>Badanie według PN-EN 12390-3:2019-08</small></p>
+    </h2>
+    <hr>
+
+    <h3><small><b>Dane identyfikacyjne próbki</b></small></h3>
+    <table>
+        <tr>
+            <th>Data pobrania</th>
+            <th>Czas dojrzewania próbki</th>
+            <th colspan="2">Nr zlecenia</th>
+        </tr>
+        <tr>
+            <td>{{ testedSample.date | date: 'longDate' }}</td>
+            <td>{{ testedSample.agTime }} dni</td>
+            <td colspan="2">{{ testedSample.client.cid }}</td>
+        </tr>
+        <tr>
+            <th colspan="2">Nazwa i adres zleceniodawcy</th>
+            <th colspan="2">Nazwa i adres budowy</th>
+        </tr>
+        <tr>
+            <td colspan="2">{{ testedSample.client.company.name }}, {{ testedSample.client.company.address }}, {{ testedSample.client.company.postalcode }} {{ testedSample.client.company.city }}</td>
+            <td colspan="2">{{ testedSample.client.clName }}, {{ testedSample.client.clAddress }}, {{ testedSample.client.clCity }}</td>
+        </tr>
+        <tr>
+            <th>Deklarowana klasa wytrzymałośći</th>
+            <th colspan="3">Wyniki badań mieszanki betonowej</th>
+        </tr>
+        <tr>
+            <td style="text-align:center">{{ testedSample.rec.clS }}</td>
+            <td>Konsystencja: {{ testedSample.testCon }}mm</td>
+            <td>Zawartość powietrza: %</td>
+            <td>Inne: </td>
+        </tr>
+    </table>
+    <hr>
+
+    <h3><small><b>Wymagania dla przyrządów pomiarowych</b></small></h3>
+    <table>
+        <tr>
+            <td>{{ formText }}</td>
+            <td>
+                <form [formGroup]="inputs">
+                Temperatura pomieszczenia (18&#xb0;C - 30&#xb0;C): 
+                <input
+                type="number"
+                step="0.1"
+                formControlName="laboTemp"
+                min="0"
+                max="50"
+                >
+                </form>
+            </td>
+        </tr>
+        <tr><th colspan="2">Dodatkowe uwagi</th></tr>
+        <tr><td colspan="2">
+            <form [formGroup]="inputs">
+                <input style="width: 99%" formControlName="comm1">
+            </form>
+        </td></tr> <!--input here-->
+    </table>
+    <hr>
+
+    <h3><small><b>Kryteria dla pomiarów próbki sześciennej</b></small></h3>
+    <table>
+        <tr>
+            <td>Próbki wykonane w formach precyzyjnych: </td>
+            <td>
+                <form [formGroup]="inputs">
+                    <mat-checkbox 
+                    style="margin-left: 5px; margin-right: 5px" 
+                    type="checkbox" 
+                    formControlName="precForm"
+                    [(ngModel)]="checkedForm"
+                    (click)="onCheck()"
+                    >{{checkedForm==true ? 'Tak' : 'Nie'}}</mat-checkbox>
+                    <!--<label for="precForm">Tak/Nie</label>-->
+                </form>
+            </td> <!--radio group here-->
+        </tr>
+        <tr>
+            <td>Tolerancja "powierzchni bocznych" próbki do 1%</td>
+            <td>
+                <form [formGroup]="inputs">
+                    <mat-checkbox 
+                    style="margin-left: 5px; margin-right: 5px" 
+                    type="checkbox" 
+                    formControlName="precSide"
+                    [(ngModel)]="checkedSide"
+                    >{{checkedSide==true ? 'Spełnia' : 'Nie spełnia'}}</mat-checkbox>
+                </form>
+            </td> <!--radio group here-->
+        </tr>
+        <tr>
+            <td>Tolerancja "góra-dół" próbki do 1,5%</td>
+            <td>
+                <form [formGroup]="inputs">
+                    <mat-checkbox 
+                    style="margin-left: 5px; margin-right: 5px" 
+                    type="checkbox" 
+                    formControlName="precUpDown"
+                    [(ngModel)]="checkedUpDown"
+                    >{{checkedUpDown==true ? 'Spełnia' : 'Nie spełnia'}}</mat-checkbox>
+                </form>
+            </td> <!--radio group here-->
+        </tr>
+        <tr>
+            <td>Prostopadłość powierzchni dociskanych do &#177;0,0006</td>
+            <td>
+                <form [formGroup]="inputs">
+                    <mat-checkbox 
+                    style="margin-left: 5px; margin-right: 5px" 
+                    type="checkbox" 
+                    formControlName="precFlat"
+                    [(ngModel)]="checkedFlat"
+                    [disabled]="checkedForm"
+                    >{{checkedFlat==true ? 'Spełnia' : 'Nie spełnia'}}</mat-checkbox>
+                </form>
+            </td> <!--radio group here-->
+        </tr>
+        <tr>
+            <td>Prostopadłości ścian bocznych do podstawy do &#177;0,5mm</td>
+            <td>
+                <form [formGroup]="inputs">
+                    <mat-checkbox 
+                    style="margin-left: 5px; margin-right: 5px" 
+                    type="checkbox" 
+                    formControlName="precPerpSide"
+                    [(ngModel)]="checkedPerp"
+                    [disabled]="checkedForm"
+                    >{{checkedPerp==true ? 'Spełnia' : 'Nie spełnia'}}</mat-checkbox>
+                </form>
+            </td> <!--radio group here-->
+        </tr>
+        <tr><th colspan="2">Dodatkowe uwagi/wnioski</th></tr>
+        <tr><td colspan="2">
+            <form [formGroup]="inputs">
+                <input style="width: 99%" formControlName="precComm">
+            </form>
+        </td></tr> <!--input here-->
+    </table>
+    <hr>
+
+    <h3><small><b>Sprawdzenie wymiarów według PN-EN 12390-1:2013-03 oraz masy według PN-EN 12390-7:2019-08</b></small></h3>
+    <table>
+        <tr><td colspan="3">
+            <form [formGroup]="inputs">
+                Masa próbki: 
+                <input type="number" step="0.001" min="0" formControlName="mass"> kg
+            </form>
+        </td></tr>
+        <tr>
+            <th>Oś X</th>
+            <th>Oś Y</th>
+            <th>Oś Z</th>
+        </tr>
+        <tr>
+            <td align="center">
+                <form [formGroup]="inputs"> 
+                    <input type="number" step="0.1" min="0" formControlName="wymA"> mm
+                </form>
+            </td>
+            <td align="center">
+                <form [formGroup]="inputs"> 
+                    <input type="number" step="0.1" min="0" formControlName="wymB"> mm
+                </form>
+            </td>
+            <td align="center">
+                <form [formGroup]="inputs"> 
+                    <input type="number" step="0.1" min="0" formControlName="wymC"> mm
+                </form>
+            </td>
+        </tr>
+        <tr><th colspan="3">Dodatkowe uwagi/wnioski</th></tr>
+        <tr><td colspan="3">
+            <form [formGroup]="inputs">
+                <input style="width: 99%" formControlName="wymComm">
+            </form>
+        </td></tr> <!--input here-->
+    </table>
+    <hr>
+
+    <h3><small><b>Kryteria dotyczące maszyny wytrzymałościowej</b></small></h3>
+    <table>
+        <tr>
+            <td>Prędkość obciążenia próbki: </td>
+            <td>
+                <form [formGroup]="inputs">
+                    <input type="number" step="0.1" min="0.1" max="3" formControlName="destSpeed"> MPa/s
+                </form>
+            </td> <!--counter here-->
+        </tr>
+    </table>
+    <hr>
+
+    <h3><small><b>WYNIK</b></small></h3>
+    <table>
+        <tr>
+            <td><b>Siła niszcząca: </b></td>
+            <td>
+                <form [formGroup]="inputs">
+                    <input type="number" step="0.1" min="0.1" formControlName="destForce"> kN
+                </form>
+            </td> <!--input here-->
+        </tr>
+        <tr>
+            <td><b>Wytrzymałość na ściskanie: </b></td>
+            <td>{{ testedSample.destResult }} MPa</td> <!--wyliczone-->
+        </tr>
+    </table>
+
+    <p class="pa1">Typ zniszczenia próbki: {{ testedSample.destType }}</p>
+        <form class="pa1" [formGroup]="inputs">
+            <select formControlName="destType">
+                <option *ngFor="let destType of destTypes" [ngValue]="destType">
+                    {{destType.value}}
+                </option>
+            </select>
+        </form><!--select here-->
+    <p>
+    <table>
+        <tr><th>Dodatkowe uwagi/wnioski</th></tr>
+        <tr><td>
+            <form [formGroup]="inputs">
+                <input style="width: 99%" formControlName="destComm">
+            </form>
+        </td></tr> <!--input here-->
+    </table>
+    <hr>
+
+    <div align="center">
+        <p>
+            <form [formGroup]="inputs">
+                Badanie wykonał: <b>{{ testedBy }}</b>, dnia
+                <mat-form-field>
+                    <mat-label>Data badania</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="chkDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </form>
+        <p><button mat-raised-button color="warn" (click)="save()">Zapisz</button></p>
+     <!--nazwisko potw. kartę i datepicker daty badania-->
+        <p><small>OBLICZENIE WYNIKÓW BADAŃ ZNAJDUJE SIĘ W SPRAWOZDANIU Z BADAŃ.</small></p>
+    </div>
+</div>

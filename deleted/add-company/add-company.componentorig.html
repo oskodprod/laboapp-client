@@ -1,0 +1,72 @@
+<hr>
+<div class="container">
+    <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error.status }} - {{error.error.message}}</p>
+    </div>
+    <form [formGroup]="form" (submit)="onSavePost()">
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Nazwa firmy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            formControlName="name"
+            class="form-control"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Adres firmy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            formControlName="address"
+            class="form-control"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Kod pocztowy</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            formControlName="postalcode"
+            class="form-control"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline">
+            <mat-label>Miasto</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            formControlName="city"
+            class="form-control"
+            required>
+        </mat-form-field>
+      </div>
+      <div class="form-group">
+        <mat-form-field appearance="outline" class="form-control">
+            <mat-label>Numer NIP</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            formControlName="nip"
+            required>
+        </mat-form-field>
+      </div>
+      <hr>
+      <div class="form-group">
+          <mat-radio-group formControlName="category" class="form-control">
+                <mat-radio-button class="form-control radio-btns-padding" value="labo">Laboratorium</mat-radio-button>
+                <mat-radio-button class="form-control radio-btns-padding" value="wyko">Wykonawca</mat-radio-button>
+                <mat-radio-button class="form-control radio-btns-padding" value="prod">Producent betonu</mat-radio-button>
+          </mat-radio-group>
+      </div>
+      <hr>
+      <button mat-raised-button [disabled]="form.invalid" type="submit">Dodaj</button>
+    </form>
+  </div>

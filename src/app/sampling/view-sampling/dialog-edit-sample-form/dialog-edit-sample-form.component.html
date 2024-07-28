@@ -1,0 +1,124 @@
+<h2 mat-dialog-title>Edycja próbki</h2>
+<div *ngIf="error">
+    <p>{{ error?.status }} - {{error?.error.message}}</p>
+    <hr>
+</div>
+<hr>
+<mat-dialog-content [formGroup]="form">
+<div>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="nr WZ"
+        required
+        formControlName="WZ">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="ID"
+        required
+        formControlName="sxHead">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="IDLP"
+        required
+        formControlName="sxLP">
+    </mat-form-field>
+    <div>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="Okres badania"
+        required
+        formControlName="agTime">
+    </mat-form-field>
+    <mat-label>Rodzaj próbki</mat-label>
+    <mat-checkbox 
+        formControlName="sCategory"
+        [(ngModel)]="checked">{{checked==true ? 'Punktowa' : 'Złożona'}}</mat-checkbox>
+    </div><div>
+    <mat-form-field>
+        <input
+        matInput
+        type="time"
+        placeholder="Godzina załadunku"
+        formControlName="tLoad">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="time"
+        placeholder="Godzina badania"
+        required
+        formControlName="tCheck">
+    </mat-form-field>
+    </div><div>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="Konsystencja [mm]"
+        required
+        formControlName="testCon">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="Temperatura mieszanki [st. C]"
+        formControlName="mixTemp">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="Temperatura powietrza [st. C]"
+        formControlName="airTemp">
+    </mat-form-field>
+    </div><div>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="Zawartość powietrza [%]"
+        formControlName="airPRC">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Termometr"
+        formControlName="thermo">
+    </mat-form-field>
+    </div><div>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nr foremki"
+        required
+        formControlName="formNo">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Wymiary foremki</mat-label>
+        <mat-select formControlName="formSize" name="form">
+            <mat-option *ngFor="let form of formList" [value]="form.value">
+                {{form.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+</div>
+</mat-dialog-content>
+<hr>
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Zamknij</button>
+    <button mat-raised-button color=primary [disabled]="!form.valid" (click)="save()">Zapisz</button>
+</mat-dialog-actions>

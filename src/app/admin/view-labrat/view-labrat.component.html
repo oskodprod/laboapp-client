@@ -1,0 +1,59 @@
+<div [formGroup]="form">
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Imię"
+        required
+        formControlName="pName">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwisko"
+        required
+        formControlName="lastname">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Symbol"
+        required
+        formControlName="iniShort">
+    </mat-form-field>
+    
+    <mat-checkbox formControlName="isAdmin">Administrator</mat-checkbox>
+    <div>
+    <mat-form-field>
+        <mat-label>Laboratorium</mat-label>
+        <mat-select formControlName="name" name="labo">
+            <mat-option *ngFor="let labo of labos" [value]="labo.name">
+                {{labo.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+    <div>
+    <mat-form-field>
+        <input
+        matInput
+        type="email"
+        placeholder="Email"
+        required
+        formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="password"
+        placeholder="Hasło"
+        formControlName="password">
+    </mat-form-field>
+    </div>
+</div>
+<hr>
+
+    <button class="mat-raised-button" routerLink="/labrats">Anuluj</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!form.valid" (click)="save()">Zapisz</button>

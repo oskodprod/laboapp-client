@@ -1,0 +1,53 @@
+<div *ngIf="isAuth">   
+    
+  <mat-toolbar>
+    <!--<span>Labo</span>-->
+    <a href="#">Labo</a>
+    <span class="spacing"></span>
+    
+    <button *ngIf="IsLabrat" mat-raised-button class="navbar-menu-button" [matMenuTriggerFor]="proMenu">Protokoły</button>
+      <mat-menu #proMenu="matMenu">
+        <!--<a class="navbar-menu-option" mat-menu-item routerLink="/addpro">Dodaj protokół</a>-->
+        <a *ngIf="IsLabrat" class="navbar-menu-option" mat-menu-item (click)="openAddSamplingDialog()">Dodaj protokół</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/filpro">Filtr protokołów</a>
+    </mat-menu>
+
+    <button *ngIf="IsLabrat" mat-raised-button class="navbar-menu-button">
+      <a routerLink="/tests">Badania Próbek</a>
+    </button>
+
+    <button *ngIf="IsLabrat" mat-raised-button class="navbar-menu-button" [matMenuTriggerFor]="repMenu">Sprawozdania</button>
+      <mat-menu #repMenu="matMenu">
+        <a class="navbar-menu-option" mat-menu-item routerLink="/addrep">Dodaj sprawozdanie</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/filrep">Filtr sprawozdań</a>
+    </mat-menu>
+
+    <button *ngIf="IsLabrat" mat-raised-button class="navbar-menu-button" [matMenuTriggerFor]="recMenu">Receptury</button>
+      <mat-menu #recMenu="matMenu">
+        <!--<a class="navbar-menu-option" mat-menu-item routerLink="/addrec">Dodaj recepturę</a>-->
+        <a class="navbar-menu-option" mat-menu-item (click)="openAddRecipeDialog()">Dodaj recepturę</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/filrec">Filtr receptur</a>
+    </mat-menu>
+
+    <button *ngIf="isAdmin" mat-raised-button class="navbar-menu-button" [matMenuTriggerFor]="AdminMenu">Admin</button>
+      <mat-menu #AdminMenu="matMenu">
+        <!--<a class="navbar-menu-option" mat-menu-item routerLink="/addcli">Dodaj klienta</a>-->
+        <!--<a class="navbar-menu-option" mat-menu-item routerLink="/addlab">Dodaj pracownika</a>-->
+        <!--<a class="navbar-menu-option" mat-menu-item routerLink="/addcomp">Dodaj firmę</a>-->
+        <a class="navbar-menu-option" mat-menu-item (click)="openAddClientDialog()">Dodaj klienta</a>
+        <a class="navbar-menu-option" mat-menu-item (click)="openAddLabratDialog()">Dodaj pracownika</a>
+        <a class="navbar-menu-option" mat-menu-item (click)="openAddCompanyDialog()">Dodaj firmę</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/addusr">(!)Dodaj użytkownika</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/clients">Lista klientów</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/labrats">Lista pracowników</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/filcomp">Filtr firm</a>
+        <a class="navbar-menu-option" mat-menu-item routerLink="/formfields">Lista pozycji formularza</a>
+    </mat-menu>
+
+    <button mat-raised-button color="warn" class="navbar-menu-button">
+      <a (click)="onLogout()">Wyloguj</a>
+    </button>
+      
+  </mat-toolbar>
+
+</div>

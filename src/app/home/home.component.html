@@ -1,0 +1,18 @@
+
+<div class="centered">
+    <p><b>Zalogowano do aplikacji Laboratorium</b></p>
+    <p><small>W celu nawigacji, użyj paska nawigacji</small></p>
+    <p>Zalogowany użytkownik:
+        <div *ngIf="loggedLabrat"><small>
+            <p>{{loggedLabrat.pName}} {{loggedLabrat.lastname}}
+            <p>Symbol: {{loggedLabrat.iniShort}}
+            <p *ngIf="loggedLabrat.isAdmin">Administrator aplikacji
+            <p>e-mail: {{loggedLabrat.user.email}}
+            </small></div>
+        <div *ngIf="loggedClient"><small>
+            <p>{{loggedClient.company.name}} {{loggedClient.clName}}, {{loggedClient.clAddress}}, {{loggedClient.clCity}}
+            <p>Symbol: {{loggedClient.iniShort}}
+            <p>Kontakt: {{loggedClient.contactname}} {{loggedClient.contactlastname}}, {{loggedClient.contactTelNo}}, {{loggedClient.user.email}}
+        </small></div>
+    <p>{{error}}</p>
+</div>

@@ -1,0 +1,351 @@
+<!--<p>view-sampling works!</p>
+<p>{{sampling|json}}</p>
+<p>{{sampling?.docDate | date:'medium'}}</p>
+<p>{{sampling?.labrat.pName}} {{sampling?.labrat.lastname}}, {{sampling?.labrat.user.email}} - {{sampling?.labrat.labo.name}}</p>
+{{sampling.sidHead}}{{sampling.sidLP}}</p>
+<p>{{sampling.rec.maker.name}} {{sampling.rec.recName}}</p>
+<p>{{sampling.rec.clS}}, {{sampling.rec.con}}, {{sampling.rec.clX}}, Certyfikowany: {{sampling.rec.cert}}</p>
+<p>{{sampling.client.cid}} - {{sampling.client.company.name}}, {{sampling.client.clName}}, {{sampling.client.clAddress}}, {{sampling.client.clCity}}</p>
+<p>Kontakt: {{sampling.client.contactname}} {{sampling.client.contactlastname}} {{sampling.client.contactTelNo}} {{sampling.client.user.email}}</p>
+<p>{{sampling.samples|json}}</p>-->
+
+<div *ngIf="error">
+    <p>{{ error?.status }} - {{error?.error.message}}</p>
+    <hr>
+</div>
+<form  class="mainform" [formGroup]="form">
+    <!--DATA ID PROTOKOŁU-->
+    <div>
+    <h2 align="center">
+        Protokół pobrania mieszanki betonowej nr {{sampling?.sid}}
+        <button class="headbtns" mat-raised-button color=warn [disabled]="!form.dirty" (click)=save()>Zapisz zmiany</button>
+        <button class="headbtns" mat-raised-button color=warn [disabled]="form.dirty" (click)=openAddSamplesDialog()>Dodaj próbki</button>
+    </h2>
+    <mat-form-field>
+        <mat-label>Data wystawienia</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="docDate">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="ID"
+        required
+        formControlName="sidhd">
+    </mat-form-field>
+    <mat-form-field class="textsmol">
+        <input
+        matInput
+        type="number"
+        placeholder="IDLP"
+        required
+        formControlName="sidlp">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Próbki wykonał</mat-label>
+        <mat-select formControlName="sxMak" name="sel">
+            <mat-option *ngFor="let sel of sxmakList" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+    <hr>
+    <!--BUDOWA-->
+    <div>
+    <h3>Dane Zleceniodawcy</h3>
+        <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="ID Budowy"
+            readonly
+            formControlName="cid">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nazwa budowy</mat-label>
+            <mat-select formControlName="clName" name="name">
+                <mat-option (onSelectionChange)="onClChange(name.id)" *ngFor="let name of clients" [value]="name.name">
+                    {{name.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="Wykonawca"
+            readonly
+            formControlName="clCompany">
+        </mat-form-field>
+        <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="Adres Budowy"
+            readonly
+            formControlName="clAddress">
+        </mat-form-field>
+        <mat-form-field>
+            <input
+            matInput
+            type="text"
+            placeholder="Miasto"
+            readonly
+            formControlName="clCity">
+        </mat-form-field>
+        </div>
+        <hr>
+        <h3>Deklarowane parametry mieszanki betonowej</h3>
+        <div><div>
+            <mat-form-field>
+                <mat-label>Receptura</mat-label>
+                <mat-select formControlName="recName" name="name">
+                    <mat-option (onSelectionChange)="onRecChange(name.id)" *ngFor="let name of recs" [value]="name.name">
+                        {{name.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                matInput
+                type="text"
+                placeholder="Producent"
+                readonly
+                formControlName="maker">
+            </mat-form-field>
+            <mat-form-field>
+                <input
+                matInput
+                type="text"
+                placeholder="Wytrzymałość na ściskanie"
+                readonly
+                formControlName="cls">
+            </mat-form-field>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Klasa konsystencji"
+                    readonly
+                    formControlName="con">
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Klasa wodoszczelności"
+                    readonly
+                    formControlName="clW">
+                </mat-form-field>
+                </div><div>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Klasa mrozoodporności"
+                    readonly
+                    formControlName="clF">
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Klasy ekspozycji"
+                    readonly
+                    formControlName="clX">
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Klasa nasiąkliwości"
+                    readonly
+                    formControlName="clN">
+                </mat-form-field>
+                <mat-form-field>
+                    <input
+                    matInput
+                    type="text"
+                    placeholder="Dodatkowe uwagi"
+                    readonly
+                    formControlName="comments">
+                </mat-form-field>
+                </div>
+        </div>
+        <hr>
+    <h3>Miejsce betonowania</h3>
+    <mat-form-field class="textwider">
+        <mat-label>Miejsce betonowania</mat-label>
+        <mat-select formControlName="loc" name="sel" multiple>
+            <mat-option *ngFor="let sel of locList" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="textwider">
+        <input
+        matInput
+        type="text"
+        placeholder="Opis"
+        formControlName="locDesc">
+    </mat-form-field>
+    <hr>
+    <div>
+    <h3>Metoda zagęszczenia</h3>
+    <mat-form-field>
+        <mat-label>Metoda zagęszczenia</mat-label>
+        <mat-select formControlName="mak" name="sel">
+            <mat-option *ngFor="let sel of makList" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+    <hr>
+    <div>
+    <h3>Pobrane próbki</h3>
+    <!--
+    WZ: string; //numer WZ
+    sCategory: boolean; //rodzaj próbki(false = Z, true = P)
+    testCon: string; //wartości stożka(protokół i karta) DATA
+    airPRC: number; //zawartość powietrza w procentach(protokół i karta)
+    tLoad: string; //czas załadunku mieszanki
+    tCheck: string; //godziny badania
+    airTemp: number; //temperatura powietrza
+    mixTemp: number; //temperatura mieszanki
+    formNo: string; //numer foremki
+    thermo: string; //termometr
+    formSize: string; //opis foremki, kształt-wymiar
+    sxid: string; //id próbki -> miesiąc/inicjał/numer
+    agTime: number; //czas dojrzewania(do wyliczenia czasu badania)
+    -->
+    <table mat-table [dataSource]="samples" class="mat-elevation-z8">
+        <ng-container matColumnDef="lp">
+            <th mat-header-cell *matHeaderCellDef>lp.</th>
+            <td mat-cell *matCellDef="let i = index">{{i+1}}</td>
+        </ng-container>
+        <ng-container matColumnDef="WZ">
+            <th mat-header-cell *matHeaderCellDef>Nr dowodu dostawy</th>
+            <td mat-cell *matCellDef="let element">{{element.WZ}}</td>
+        </ng-container>
+        <ng-container matColumnDef="sxid">
+            <th mat-header-cell *matHeaderCellDef>Oznaczenie próbek</th>
+            <td mat-cell *matCellDef="let element">{{element.sxid}}</td>
+        </ng-container>
+        <ng-container matColumnDef="agTime">
+            <th mat-header-cell *matHeaderCellDef>Okres badania [dni]</th>
+            <td mat-cell *matCellDef="let element">{{element.agTime}}</td>
+        </ng-container>
+        <ng-container matColumnDef="sCategory">
+            <th mat-header-cell *matHeaderCellDef>Rodzaj próbki</th>
+            <td mat-cell *matCellDef="let element">{{element.sCategory == true ? 'Punktowa' : 'Złożona'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="tLoad">
+            <th mat-header-cell *matHeaderCellDef>Godzina załadunku</th>
+            <td mat-cell *matCellDef="let element">{{element.tLoad}}</td>
+        </ng-container>
+        <ng-container matColumnDef="tCheck">
+            <th mat-header-cell *matHeaderCellDef>Godzina badania</th>
+            <td mat-cell *matCellDef="let element">{{element.tCheck}}</td>
+        </ng-container>
+        <ng-container matColumnDef="testCon">
+            <th mat-header-cell *matHeaderCellDef>Konsystencja [mm]</th>
+            <td mat-cell *matCellDef="let element">{{element.testCon}}</td>
+        </ng-container>
+        <ng-container matColumnDef="mixTemp">
+            <th mat-header-cell *matHeaderCellDef>Temperatura mieszanki</th>
+            <td mat-cell *matCellDef="let element">{{element.mixTemp}}</td>
+        </ng-container>
+        <ng-container matColumnDef="airTemp">
+            <th mat-header-cell *matHeaderCellDef>Temperatura powietrza</th>
+            <td mat-cell *matCellDef="let element">{{element.airTemp}}</td>
+        </ng-container>
+        <ng-container matColumnDef="airPRC">
+            <th mat-header-cell *matHeaderCellDef>Zawartość powietrza</th>
+            <td mat-cell *matCellDef="let element">{{element.airPRC}}</td>
+        </ng-container>
+        <ng-container matColumnDef="formSize">
+            <th mat-header-cell *matHeaderCellDef>wymiary foremki</th>
+            <td mat-cell *matCellDef="let element">{{element.formSize}}</td>
+        </ng-container>
+        <ng-container matColumnDef="thermo">
+            <th mat-header-cell *matHeaderCellDef>Termometr</th>
+            <td mat-cell *matCellDef="let element">{{element.thermo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="formNo">
+            <th mat-header-cell *matHeaderCellDef>Nr foremki</th>
+            <td mat-cell *matCellDef="let element">{{element.formNo}}</td>
+        </ng-container>
+        <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef>Edytuj</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="primary" (click)="openEditSampleDialog(element._id)">
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef>Usuń</th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-mini-fab color="warn" (click)="deleteSample(element._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="samplesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: samplesColumns"></tr>
+    </table>
+    </div>
+    <hr>
+        <!--OSOBY-->
+        <div>
+        <mat-form-field class="textwide">
+            <input
+            matInput
+            type="text"
+            placeholder="Protokół wystawił"
+            readonly
+            formControlName="labrat">
+        </mat-form-field>
+        <mat-form-field class="textwider">
+            <input
+            matInput
+            type="text"
+            placeholder="Kontakt na budowie"
+            readonly
+            formControlName="contact">
+        </mat-form-field>
+        </div>
+    <!--!!!!!!!!!!!!-->
+    <!--<mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwa"
+        required
+        formControlName="recName">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Producent</mat-label>
+        <mat-select formControlName="name" name="prod">
+            <mat-option *ngFor="let prod of prods" [value]="prod.name">
+                {{prod.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Klasy ekspozycji</mat-label>
+        <mat-select formControlName="clX" name="sel" multiple>
+            <mat-option *ngFor="let sel of clx" [value]="sel.value">
+                {{sel.value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>-->
+</form>
+<hr>
+    <button class="mat-raised-button" routerLink="/filpro">Powrót</button>
+    <!--<button class="mat-raised-button mat-primary" [disabled]="!form.valid" (click)="save()">Zapisz</button>-->

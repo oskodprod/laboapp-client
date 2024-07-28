@@ -1,0 +1,128 @@
+<hr>
+<div class="container">
+    <div class="alert alert-danger" *ngIf="error">
+        <p>{{ error.status }} - {{error.error.message}}</p>
+    </div>
+    <form class="wideform" #comp="ngForm" (ngSubmit)="onSubmit(comp)">
+        <table class="fullwidth" cellspacing="0"><tr>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Kod receptury</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                ngModel
+                name="recname"
+                required>
+            </mat-form-field></td>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Producent</mat-label>
+                <input 
+                matInput
+                disabled
+                type="text" 
+                ngModel
+                name="maker"
+                required>
+            </mat-form-field></td>
+        </tr></table>
+        <table class="fullwidth" cellspacing="0"><tr>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Klasa wytrzymałości na ściskanie</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                ngModel
+                name="cls"
+                required>
+            </mat-form-field></td>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Konsystencja</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                ngModel
+                name="con"
+                required>
+            </mat-form-field></td>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Klasa Wodoszczelności</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                ngModel
+                name="clw"
+                required>
+            </mat-form-field></td>
+            <td><mat-form-field appearance="outline">
+                <mat-label>Klasa Mrozoodporności</mat-label>
+                <input 
+                matInput 
+                type="text" 
+                ngModel
+                name="clf"
+                required>
+            </mat-form-field></td>
+        </tr></table>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Certyfikacja mieszanki</mat-label>
+            <input 
+            matInput
+            disabled
+            type="text" 
+            ngModel
+            name="cert"
+            placeholder="checkbox"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Czas dojrzewania</mat-label>
+            <input 
+            matInput 
+            type="number" 
+            ngModel
+            name="agtime"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Klasy Odporności</mat-label>
+            <input 
+            matInput
+            disabled
+            type="text" 
+            ngModel
+            name="clx"
+            placeholder="checkbox"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Klasa Nasiąkliwości</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="cln"
+            required>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline">
+            <mat-label>Dodatkowe uwagi</mat-label>
+            <input 
+            matInput 
+            type="text" 
+            ngModel
+            name="comments"
+            required>
+        </mat-form-field>
+      </div>
+      <hr>
+      <button mat-raised-button [disabled]="!comp.valid" type="submit">Dodaj</button>
+    </form>
+  </div>

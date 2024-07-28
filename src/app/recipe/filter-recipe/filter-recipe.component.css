@@ -1,0 +1,12 @@
+.centered{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+}
+
+table{
+    width: 50%;
+    position: sticky;
+    left: 25%;
+}

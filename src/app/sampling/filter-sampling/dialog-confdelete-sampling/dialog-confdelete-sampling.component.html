@@ -1,0 +1,19 @@
+<!--<p>dialog-confdelete-sampling works!</p>-->
+<h2 mat-dialog-title>Uwaga</h2>
+<div *ngIf="error">
+    <p>{{ error }}</p>
+    <hr>
+</div>
+    <p>id: {{data.id}}</p>
+    <p>sid: {{data.sid}}</p>
+    <p>user: ({{iniShort}}, {{isAdmin}})</p>
+<hr>
+<mat-dialog-content>
+<p>Usunięcie protokołu spowoduje usunięcie powiązanych z nim próbek i sprawozdania z bazy danych.</p>
+<p>Czy na pewno chcesz usunąć protokół nr {{data.sid}} ?</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Zamknij</button>
+    <button mat-raised-button color=warn [disabled]="!isAdmin" (click)="delete(data.id)">Usuń</button>
+</mat-dialog-actions>

@@ -1,0 +1,63 @@
+<div class="textcentered">
+    <p><b>Sprawozdania z badań wytrzymałości</b></p>
+    <p><small>Aby przejść do wygenerowania sprawozdania wybierz protokół z podanego zakresu dat</small></p>
+</div>
+
+<div class="contentbox">
+    
+    <mat-form-field class="content" appearance="fill">
+    <mat-label>Wprowadź zakres dat</mat-label>
+    <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+      <input matStartDate formControlName="start" placeholder="Od: ">
+      <input matEndDate formControlName="end" placeholder="Do: ">
+    </mat-date-range-input>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-date-range-picker #picker></mat-date-range-picker>
+    <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Nieprawidłowa</mat-error>
+    <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Nieprawidłowa</mat-error>
+    </mat-form-field>
+    <!--<p class="content">Zakres dat: {{range.value | json}}</p>-->
+    <p class="content">
+        <button mat-raised-button color="primary" [disabled]="(!range.value.start) || (!range.value.end)" (click)="searchSamplings(range.value.start, range.value.end)">
+            Szukaj
+        </button>
+    </p>
+</div>
+<table *ngIf="samplingsList.length!=0" mat-table [dataSource]="samplingsList" class="mat-elevation-z8">
+    <ng-container matColumnDef="docDate">
+        <th mat-header-cell *matHeaderCellDef>Data protokołu</th>
+        <td mat-cell *matCellDef="let element">{{element.docDate | date:'mediumDate'}}</td>
+    </ng-container>
+    <ng-container matColumnDef="client">
+        <th mat-header-cell *matHeaderCellDef>Budowa</th>
+        <td mat-cell *matCellDef="let element">
+            {{element.client}}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="sid">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let element">{{element.sid}}</td>
+    </ng-container>
+    <ng-container matColumnDef="rec">
+        <th mat-header-cell *matHeaderCellDef>Receptura</th>
+        <td mat-cell *matCellDef="let element">{{element.rec}}</td>
+    </ng-container>
+    <ng-container matColumnDef="samples">
+        <th mat-header-cell *matHeaderCellDef>Próbki</th>
+        <td mat-cell *matCellDef="let element">
+            <p>{{element.samples}}</p>
+            <p>{{element.destResults}}</p>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="report">
+        <th mat-header-cell *matHeaderCellDef>Sprawozdanie</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-raised-button color="warn" disabled>
+                <a routerLink="/report/{{element.id}}" disabled>Generuj</a>
+            </button>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="samplingsListColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: samplingsListColumns"></tr>
+</table>
+<p class="content" *ngIf="errorflag!=null">list error: {{errorflag}}</p>

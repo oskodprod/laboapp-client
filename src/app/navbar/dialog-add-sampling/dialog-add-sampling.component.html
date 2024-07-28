@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>Dodaj protokół pobrania</h2>
+<div *ngIf="error">
+    <p>{{ error.status }} - {{error.error.message}}</p>
+</div>
+<hr>
+<mat-dialog-content [formGroup]="form">
+<div>
+    <p><mat-form-field>
+        <mat-label>Wybierz klienta(budowę)</mat-label>
+        <mat-select formControlName="client" name="client">
+            <mat-option *ngFor="let client of clients" [value]="client.name">
+                {{client.company}} {{client.name}}, {{client.address}} {{client.city}} // {{client.cid}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <p><mat-form-field>
+        <mat-label>Wybierz recepturę</mat-label>
+        <mat-select formControlName="rec" name="rec">
+            <mat-option *ngFor="let rec of recs" [value]="rec.name">
+                {{rec.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+</mat-dialog-content>
+<hr>
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Zamknij</button>
+    <button mat-raised-button color=primary [disabled]="!form.valid" (click)="save()">Zapisz</button>
+</mat-dialog-actions>

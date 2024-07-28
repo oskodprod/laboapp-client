@@ -1,0 +1,63 @@
+<h2 mat-dialog-title>Dodaj pracownika</h2>
+<hr>
+<mat-dialog-content [formGroup]="form">
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Imię"
+        required
+        formControlName="pName">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Nazwisko"
+        required
+        formControlName="lastname">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="text"
+        placeholder="Symbol"
+        required
+        formControlName="iniShort">
+    </mat-form-field>
+    
+    <mat-checkbox formControlName="isAdmin">Administrator</mat-checkbox>
+    <div>
+    <mat-form-field>
+        <mat-select formControlName="name" name="labo" required>
+            <mat-label>Laboratorium</mat-label>
+            <mat-option *ngFor="let labo of labos" [value]="labo.name">
+                {{labo.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+    <div>
+    <mat-form-field>
+        <input
+        matInput
+        type="email"
+        placeholder="Email"
+        required
+        formControlName="email">
+    </mat-form-field>
+    <mat-form-field>
+        <input
+        matInput
+        type="password"
+        placeholder="Hasło"
+        required
+        formControlName="password">
+    </mat-form-field>
+    </div>
+</mat-dialog-content>
+<hr>
+<mat-dialog-actions>
+    <button class="mat-raised-button"(click)="close()">Zamknij</button>
+    <button mat-raised-button color=primary [disabled]="!form.valid" (click)="save()">Zapisz</button>
+</mat-dialog-actions>

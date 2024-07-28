@@ -1,0 +1,59 @@
+<div [formGroup]="form">
+  
+    <mat-form-field>
+        <input 
+            matInput
+            type="text"
+            placeholder="Nazwa firmy"
+            required
+            formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+            matInput
+            type="text"
+            placeholder="Adres firmy"
+            required
+            formControlName="address">
+    </mat-form-field>
+    <div>
+    <mat-form-field>
+        <input 
+            matInput
+            type="text"
+            placeholder="Kod pocztowy"
+            required
+            formControlName="postalcode">
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+            matInput
+            type="text"
+            placeholder="Miasto"
+            required
+            formControlName="city">
+    </mat-form-field>
+    </div><div>
+    <mat-form-field>
+        <input 
+            matInput
+            type="text"
+            placeholder="NIP"
+            required
+            formControlName="nip">
+    </mat-form-field>
+    </div>
+    <div>
+    <mat-radio-group formControlName="category">
+        <mat-radio-button value="labo">Laboratorium</mat-radio-button>
+        <mat-radio-button value="wyko">Wykonawca</mat-radio-button>
+        <mat-radio-button value="prod">Producent betonu</mat-radio-button>
+    </mat-radio-group>
+    </div>
+ 
+</div>
+<hr>
+<mat-dialog-actions>
+    <button class="mat-raised-button" routerLink="/filcomp">Anuluj</button>
+    <button class="mat-raised-button mat-primary" [disabled]="!form.valid" (click)="save()">Zapisz</button>
+</mat-dialog-actions>
